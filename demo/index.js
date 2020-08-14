@@ -45,12 +45,19 @@ app.get("/", (req, res) => {
     <script src="./index.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         var settings = {
+            outputFormat: 'dataURL',
             snapInterval: 10000,
-            onSnapshot: window.snap.uploadPhotoAsFormData("/upload", "photo", function({ fileName }) {
-                var imgElement = document.createElement("img");
-                imgElement.src = '/uploads/' + fileName;
-                document.body.append(imgElement);
-            })
+            // onSnapshot: window.snap.uploadPhotoAsFormData("/upload", "photo", function({ fileName }) {
+            //     var imgElement = document.createElement("img");
+            //     imgElement.src = '/uploads/' + fileName;
+            //     document.body.append(imgElement);
+            // })
+            onSnapshot: (data) => {
+              console.warn(data.length);
+              var imgElement = document.createElement("img");
+              imgElement.src = data;
+              document.body.append(imgElement);
+            }
         }
         window.snap && window.snap.startTakingSnapshots(settings);
     </script>
@@ -63,7 +70,7 @@ const server = http.createServer(app);
 
 if (cluster.isMaster) {
   console.log(
-    `Master ${process.pid} is running in ${process.env.NODE_ENV} mode`
+    `Master ${process.pid} is running in ${process.env.NODE_ENV} mode on port ${port}`
   );
 
   for (let i = 0; i < numCPUs; i++) {

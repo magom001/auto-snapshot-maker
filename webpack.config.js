@@ -1,13 +1,15 @@
-var path = require("path");
+const path = require("path");
+const pkg = require("./package.json");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: "./src/index",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.min.js",
-    library: "snap",
+    library: pkg.libraryConfig.name,
     libraryTarget: "umd",
+    globalObject: "this",
   },
   resolve: {
     extensions: [".ts", ".ts", ".js", ".json"],
@@ -17,7 +19,7 @@ module.exports = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        use: [{ loader: "babel-loader" }, { loader: "ts-loader" }],
       },
     ],
   },
