@@ -3,15 +3,11 @@ import SnapshotMaker, {
   SnapshotMakerSettings,
   OutputFormat,
 } from "./SnapshotMaker";
-import { uploadPhotoAsFormData } from "./helpers";
 
-const startTakingSnapshots = (settings: SnapshotMakerSettings) => {
-  new SnapshotMaker(settings);
+export { uploadPhotoAsFormData } from "./helpers";
+
+const getSnapshotMaker = (settings: SnapshotMakerSettings): SnapshotMaker => {
+  return new SnapshotMaker(settings);
 };
 
-export {
-  startTakingSnapshots,
-  uploadPhotoAsFormData,
-  SnapshotMaker,
-  OutputFormat,
-};
+export { getSnapshotMaker, SnapshotMaker, OutputFormat };

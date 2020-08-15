@@ -21,6 +21,8 @@ declare class SnapshotMaker {
     private readonly _onSnapshot;
     private readonly _onError;
     private _intervalId;
+    private _stopped;
+    private _stream?;
     constructor({ width, height, snapInterval, onSnapshot, onError, outputFormat, }: SnapshotMakerSettings);
     stop(): void;
     private init;

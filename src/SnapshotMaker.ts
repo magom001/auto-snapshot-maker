@@ -23,6 +23,8 @@ class SnapshotMaker {
   private readonly _onSnapshot: SnapshotMakerSettings["onSnapshot"];
   private readonly _onError: SnapshotMakerSettings["onError"];
   private _intervalId = 0;
+  private _stopped = false;
+  private _stream?: MediaStream;
 
   constructor({
     width = 640,
@@ -49,7 +51,13 @@ class SnapshotMaker {
   }
 
   public stop() {
+    this._stopped = true;
     clearInterval(this._intervalId);
+    if (this._stream) {
+      for (const track of this._stream.getTracks()) {
+        track.stop();
+      }
+    }
   }
 
   private async init(): Promise<void> {
@@ -58,20 +66,24 @@ class SnapshotMaker {
       video: {
         width: 640,
         height: 480,
-        frameRate: 4,
+        frameRate: 24,
       },
     };
 
     try {
-      const mediaStream = await window.navigator.mediaDevices.getUserMedia(
+      this._stream = await window.navigator.mediaDevices.getUserMedia(
         constraints
       );
 
       this._videoElement = document.createElement("video");
-      this._videoElement.srcObject = mediaStream;
+      this._videoElement.srcObject = this._stream;
 
       this._videoElement.onloadedmetadata = () => {
         this._videoElement?.play();
+
+        if (this._stopped) {
+          return;
+        }
 
         // Start taking snapshots every `snapInterval` ms
         this._intervalId = setInterval(
@@ -81,9 +93,8 @@ class SnapshotMaker {
       };
 
       this._videoElement.onplaying = () => {
-        setTimeout(this.takeSnapshot, 300);
+        setTimeout(this.takeSnapshot, 500);
       };
-
     } catch (error) {
       this.stop();
       if (this._onError) {

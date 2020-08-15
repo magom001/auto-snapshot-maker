@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime.js";
 import SnapshotMaker, { SnapshotMakerSettings, OutputFormat } from "./SnapshotMaker";
-import { uploadPhotoAsFormData } from "./helpers";
-declare const startTakingSnapshots: (settings: SnapshotMakerSettings) => void;
-export { startTakingSnapshots, uploadPhotoAsFormData, SnapshotMaker, OutputFormat, };
+export { uploadPhotoAsFormData } from "./helpers";
+declare const getSnapshotMaker: (settings: SnapshotMakerSettings) => SnapshotMaker;
+export { getSnapshotMaker, SnapshotMaker, OutputFormat };

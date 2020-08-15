@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
         var settings = {
             outputFormat: 'dataURL',
             snapInterval: 10000,
-            // onSnapshot: window.snap.uploadPhotoAsFormData("/upload", "photo", function({ fileName }) {
+            // onSnapshot: window.snap.getSnapshotMaker("/upload", "photo", function({ fileName }) {
             //     var imgElement = document.createElement("img");
             //     imgElement.src = '/uploads/' + fileName;
             //     document.body.append(imgElement);
@@ -59,7 +59,7 @@ app.get("/", (req, res) => {
               document.body.append(imgElement);
             }
         }
-        window.snap && window.snap.startTakingSnapshots(settings);
+        var snapShotMaker = window.snap.getSnapshotMaker(settings);
     </script>
   </body>
 </html>
