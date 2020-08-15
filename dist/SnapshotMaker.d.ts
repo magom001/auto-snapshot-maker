@@ -1,4 +1,4 @@
-declare enum OutputFormat {
+export declare enum OutputFormat {
     Blob = "blob",
     DataURL = "dataURL"
 }

@@ -1,4 +1,4 @@
-enum OutputFormat {
+export enum OutputFormat {
   Blob = "blob",
   DataURL = "dataURL",
 }
